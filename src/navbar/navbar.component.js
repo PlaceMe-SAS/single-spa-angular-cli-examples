@@ -78,8 +78,8 @@ function menuItems() {
         </a>
       </li>
       <li>
-        <a href="#/angular5-micro-frontend">
-          Angular 5 Micro Frontend
+        <a href="#/angular-mf">
+          Angular MF
         </a>
       </li>
       <li>

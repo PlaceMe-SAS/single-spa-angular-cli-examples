@@ -15,7 +15,7 @@ declareChildApplication('preact', () => import('src/preact/preact.app.js'), hash
 declareChildApplication('iframe-vanilla-js', () => import('src/vanillajs/vanilla.app.js'), hashPrefix('/vanilla'));
 declareChildApplication('inferno', () => import('src/inferno/inferno.app.js'), hashPrefix('/inferno'));
 declareChildApplication('ember', () => loadEmberApp('ember-app', '/build/ember-app/assets/ember-app.js', '/build/ember-app/assets/vendor.js'), hashPrefix('/ember'));
-declareChildApplication('angular5-micro-frontend', () => import('./angular5-micro-frontend/angular5-micro-frontend.app.js'), hashPrefix('/angular5-micro-frontend'));
+declareChildApplication('angular-mf', () => import('./angular-mf/angular-mf.app.js'), hashPrefix('/angular-mf'));
 start();
 
 function hashPrefix(prefix) {
