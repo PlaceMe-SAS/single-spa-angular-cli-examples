@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/joeldenning/single-spa-examples#readme",
   "devDependencies": {
+    "@polymer/polymer": "^2.3.1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-inferno": "^3.3.0",

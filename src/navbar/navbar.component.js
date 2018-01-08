@@ -78,8 +78,8 @@ function menuItems() {
         </a>
       </li>
       <li>
-        <a href="#/angular-mf">
-          Angular MF
+        <a href="#/web-component-app">
+          Web Component
         </a>
       </li>
       <li>

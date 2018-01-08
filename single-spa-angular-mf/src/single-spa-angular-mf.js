@@ -39,7 +39,8 @@ function mount(opts) {
 
 function unmount(opts) {
 	return Promise.resolve().then(() => {
-		getContainerEl(opts).style.display = 'none';
+		//getContainerEl(opts).style.display = 'none';
+		getContainerEl(opts).innerHTML = '';
 	});
 }
 

@@ -3,10 +3,14 @@ import singleSpaAngularMicroFrontend from '../../single-spa-angular-mf/src/singl
 
 const ngMfLifecycles = singleSpaAngularMicroFrontend({
   selector: 'angular-mf-app-root'
-})
+});
 
 export const bootstrap = [
-  ngMfLifecycles.bootstrap,
+  ngMfLifecycles.bootstrap
+];
+
+export const mount = [
+  ngMfLifecycles.mount,
   (opts) => {
     return new Promise((resolve, reject) => {
       require(['./dist/main.bundle.js'], resolve, reject);
@@ -14,10 +18,6 @@ export const bootstrap = [
   }
 ];
 
-export const mount = [
-  ngMfLifecycles.mount,
-];
-
 export const unmount = [
-  ngMfLifecycles.unmount,
+  ngMfLifecycles.unmount
 ];
