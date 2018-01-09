@@ -7,7 +7,8 @@ const lifecycles = singleSpaAngularMicroFrontend({
         'inline.bundle.js',
         'polyfills.bundle.js',
         'styles.bundle.js',
-        '0.chunk.js',
+        'vendor.bundle.js',
+        'route2-routing.module.chunk.js',
         'main.bundle.js'
     ]
 });

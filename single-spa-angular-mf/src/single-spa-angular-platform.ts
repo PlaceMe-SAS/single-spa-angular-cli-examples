@@ -2,6 +2,10 @@ import { Router } from "../../src/angular5-mf/node_modules/@angular/router";
 
 declare const window;
 
+const isSingleSpaApp = () => {
+    return document.getElementById;
+};
+
 class SingleSpaAngularPlatform {
 
     appName: string;

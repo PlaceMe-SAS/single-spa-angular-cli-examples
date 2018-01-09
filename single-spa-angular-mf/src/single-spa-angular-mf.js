@@ -36,13 +36,7 @@ export default function singleSpaAngularMicroFrontend(userOpts) {
 
 function bootstrap(opts) {
 	const domEl = getContainerEl(opts);
-	return opts.scripts.map(scriptName => loadScriptTag(`${opts.baseScriptUrl}/${scriptName}`, domEl)).reduce((promiseChain, currentTask) => {
-		return promiseChain.then(chainResults =>
-			currentTask.then(currentResult =>
-				[ ...chainResults, currentResult ]
-			)
-		);
-	}, Promise.resolve([]))
+	return opts.scripts.reduce((prev, scriptName) => prev.then(loadScriptTag(`${opts.baseScriptUrl}/${scriptName}`, domEl)), Promise.resolve());
 }
 
 function mount(opts) {
@@ -70,17 +64,24 @@ function getContainerEl(opts) {
 	return el;
 }
 
+async function runPromisesInSequence(promises) {
+	for (let promise of promises) {
+		await promise();
+	}
+}
+
 function loadScriptTag(url, domEl) {
-	return new Promise((resolve, reject) => {
-		const script = document.createElement('script');
-		script.onload = function () {
-			resolve();
-		};
-		script.onerror = err => {
-			reject(err);
-		};
-		script.src = url;
-		script.async = true;
-		domEl.appendChild(script);
-	});
+	return () => {
+		return new Promise((resolve, reject) => {
+			const script = document.createElement('script');
+			script.onload = function () {
+				resolve();
+			};
+			script.onerror = err => {
+				reject(err);
+			};
+			script.src = url;
+			domEl.appendChild(script);
+		});
+	};
 }
