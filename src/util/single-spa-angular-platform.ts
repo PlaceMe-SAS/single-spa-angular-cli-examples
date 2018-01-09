@@ -26,13 +26,15 @@ class SingleSpaAngularPlatform {
             window[this.appName].unmount = () => {
                 if (module) {
                     module.destroy();
-                    module.injector.get(Router).dispose();
+                    try {
+                        module.injector.get(Router).dispose();
+                    } catch (err) { }
                 }
             };
         }
     }
 
-    private isSingleSpaApp (): boolean {
+    private isSingleSpaApp(): boolean {
         return document.querySelector('body').hasAttribute('data-single-spa');
     }
 }

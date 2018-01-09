@@ -50,7 +50,80 @@ repeat for all angular cli projects
 ## Add an angular cli apps
 ```bash
 cd src
-ng new <your app name>
-cd <your app name>
-ng serve
+ng new app1 --prefix=app1
+cd app1
+ng serve --port=4201
+```
+
+```
+// src/app1/loader.js
+
+import singleSpaAngularMicroFrontend from '../util/single-spa-angular-mf';
+
+const lifecycles = singleSpaAngularMicroFrontend({
+    selector: 'app1-root',
+    baseScriptUrl: 'http://localhost:4201',
+    scripts: [
+        'inline.bundle.js',
+        'polyfills.bundle.js',
+        'styles.bundle.js',
+        'vendor.bundle.js',
+        'main.bundle.js'
+    ]
+});
+
+export const bootstrap = [
+    lifecycles.bootstrap
+];
+
+export const mount = [
+    lifecycles.mount
+];
+
+export const unmount = [
+    lifecycles.unmount
+];
+```
+
+```
+// src/app1/src/polyfills.ts
+
+// Comment zone.js, it is globaly imported by the portal
+// import 'zone.js/dist/zone';  // Included with Angular CLI.
+```
+
+```
+// src/app1/src/index.html
+
+  <app1-root></app1-root>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.8.19/zone.js"></script>
+</body>
+```
+
+```
+// src/main.js
+
+declareChildApplication('app1', () => import('./app1/loader.js'), hashPrefix('/app1'));
+```
+
+```
+// src/app1/src/main.ts
+
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { singleSpaAngularPlatform } from '../../util/single-spa-angular-platform';
+
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
+
+declare const window;
+
+if (environment.production) {
+  enableProdMode();
+}
+
+singleSpaAngularPlatform.mount('app1-root', (unmount) => {
+  platformBrowserDynamic().bootstrapModule(AppModule).then(unmount);
+});
 ```
