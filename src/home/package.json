@@ -8,9 +8,7 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "build:singleSpa": "ng build --prod --output-hashing=media --extract-css=false",
-    "serve:singleSpa": "ng serve --prod --output-hashing=media --extract-css=false"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {

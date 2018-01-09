@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PlaceMe-SAS/single-spa-examples"
+    "url": "git+git@github.com:PlaceMe-SAS/single-spa-examples.git"
   },
   "author": "Robin Coma Delperier",
   "license": "MIT",

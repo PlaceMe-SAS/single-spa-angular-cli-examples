@@ -1,4 +1,4 @@
-import singleSpaAngularMicroFrontend from "../../single-spa-angular-mf/src/single-spa-angular-mf";
+import singleSpaAngularMicroFrontend from '../util/single-spa-angular-mf';
 
 const lifecycles = singleSpaAngularMicroFrontend({
     selector: 'home-root',

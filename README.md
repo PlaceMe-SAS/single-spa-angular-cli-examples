@@ -19,14 +19,38 @@ This is an example of examples on how to use [single-spa](https://github.com/joe
 ## View the demo!
 A [demo is live](http://single-spa.surge.sh) on surge.sh.
 
+## This project is an Angular 5 portal as microfrontend lazy loaded
+
 ## How to get the examples running locally
 ```bash
-git clone git@github.com:CanopyTax/single-spa-examples.git
+git clone git@github.com:PlaceMe-SAS/single-spa-examples.git
 cd single-spa-examples
-
-# Install yarn at https://yarnpkg.com/lang/en/docs/install/
-yarn
-yarn build
-yarn start
+npm install
+npm run start
 open http://localhost:8080
+```
+
+### Serve your angular project
+```bash
+npm install -g @angular/cli
+cd src/home
+npm install
+ng serve
+open http://localhost:4200
+```
+
+### For production apps mode
+```bash
+ng build --prod
+```
+And replace the target url of your child app
+
+repeat for all angular cli projects
+
+## Add an angular cli apps
+```bash
+cd src
+ng new <your app name>
+cd <your app name>
+ng serve
 ```

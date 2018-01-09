@@ -3,7 +3,7 @@ const path = require('path');
 const lodash = require('lodash');
 
 module.exports = {
-  entry: __dirname + '/src/single-spa-examples.js',
+  entry: __dirname + '/src/main.js',
   output: {
     path: process.cwd() + '/build',
     filename: '[name].js',
