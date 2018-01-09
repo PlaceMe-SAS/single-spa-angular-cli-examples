@@ -1,4 +1,3 @@
-
 const defaultOpts = {
 	// required opts
 	selector: null,
@@ -31,40 +30,33 @@ export default function singleSpaAngularMicroFrontend(userOpts) {
 	return {
 		bootstrap: bootstrap.bind(null, opts),
 		mount: mount.bind(null, opts),
-		unmount: unmount.bind(null, opts),
+		unmount: unmount.bind(null, opts)
 	};
 }
 
 function bootstrap(opts) {
-	return Promise.resolve().then(() => {
-		const domEl = getContainerEl(opts);
-		opts.scripts.map(name => {
-			const el = document.createElement('script');
-			el.setAttribute('src', `${opts.baseScriptUrl}/${name}`);
-			return el;
-		}).forEach(el => {
-			domEl.appendChild(el);
-		});
-	});
+	const domEl = getContainerEl(opts);
+	return opts.scripts.map(scriptName => loadScriptTag(`${opts.baseScriptUrl}/${scriptName}`, domEl)).reduce((promiseChain, currentTask) => {
+		return promiseChain.then(chainResults =>
+			currentTask.then(currentResult =>
+				[ ...chainResults, currentResult ]
+			)
+		);
+	}, Promise.resolve([]))
 }
 
 function mount(opts) {
-	return new Promise((resolve, reject) => {
+	return Promise.resolve().then((resolve, reject) => {
 		const domEl = getContainerEl(opts);
 		const angularRootEl = document.createElement(opts.selector);
 		domEl.appendChild(angularRootEl);
-		setTimeout(() => {
-			window[opts.selector].mount();
-			resolve();
-		}, 100);
+		window[opts.selector].mount();
 	});
 }
 
 function unmount(opts) {
 	return Promise.resolve().then(() => {
-		if(window[opts.selector]){
-			window[opts.selector].unmount();	
-		}
+		window[opts.selector].unmount();
 	});
 }
 
@@ -76,4 +68,19 @@ function getContainerEl(opts) {
 		document.body.appendChild(el);
 	}
 	return el;
+}
+
+function loadScriptTag(url, domEl) {
+	return new Promise((resolve, reject) => {
+		const script = document.createElement('script');
+		script.onload = function () {
+			resolve();
+		};
+		script.onerror = err => {
+			reject(err);
+		};
+		script.src = url;
+		script.async = true;
+		domEl.appendChild(script);
+	});
 }

@@ -10,7 +10,7 @@ const lifecycles = singleSpaAngularMicroFrontend({
         '0.chunk.js',
         'main.bundle.js'
     ]
-})
+});
 
 export const bootstrap = [
     lifecycles.bootstrap
