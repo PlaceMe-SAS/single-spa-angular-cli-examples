@@ -1,7 +1,7 @@
 import singleSpaAngularMicroFrontend from "../../single-spa-angular-mf/src/single-spa-angular-mf";
 
 const lifecycles = singleSpaAngularMicroFrontend({
-    selector: 'app-root',
+    selector: 'home-root',
     baseScriptUrl: 'http://localhost:4200',
     scripts: [
         'inline.bundle.js',

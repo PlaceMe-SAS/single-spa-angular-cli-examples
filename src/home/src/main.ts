@@ -12,6 +12,6 @@ if (environment.production) {
   enableProdMode();
 }
 
-singleSpaAngularPlatform.mount('app-root', (unmount) => {
+singleSpaAngularPlatform.mount('home-root', (unmount) => {
   platformBrowserDynamic().bootstrapModule(AppModule).then(unmount);
 });

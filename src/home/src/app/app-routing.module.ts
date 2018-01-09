@@ -6,14 +6,14 @@ import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/
 
 const routes: Routes = [
     {
-        path: 'angular5-mf',
+        path: 'home',
         children: [
             { path: 'route1', component: Route1Component },
             { path: 'route2', loadChildren: 'app/route2module/route2-routing.module#Route2RoutingModule' }
         ]
     }, {
         path: '**',
-        redirectTo: 'angular5-mf'
+        redirectTo: 'home'
     }
 ];
 

@@ -1,4 +1,4 @@
-import { Router } from "../../src/angular5-mf/node_modules/@angular/router";
+import { Router } from "../../src/home/node_modules/@angular/router";
 
 declare const window;
 
