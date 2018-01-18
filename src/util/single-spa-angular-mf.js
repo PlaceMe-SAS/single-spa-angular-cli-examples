@@ -44,21 +44,30 @@ function mount(opts) {
 		const domEl = getContainerEl(opts);
 		const angularRootEl = document.createElement(opts.selector);
 		domEl.appendChild(angularRootEl);
-		window[opts.selector].mount();
+		if(window[opts.selector]) {
+			window[opts.selector].mount();
+		} else {
+			console.error(`Cannot mount ${opts.selector} because that is not bootstraped`);
+		}
 	});
 }
 
 function unmount(opts) {
 	return Promise.resolve().then(() => {
-		window[opts.selector].unmount();
+		if(window[opts.selector]) {
+			window[opts.selector].unmount();
+			getContainerEl(opts).innerHTML = '';
+		} else {
+			console.error(`Cannot unmount ${opts.selector} because that is not bootstraped`);
+		}
 	});
 }
 
 function getContainerEl(opts) {
-	let el = document.querySelector(`#angular-sp-${opts.selector}`);
+	let el = document.querySelector(`#angular-mf-${opts.selector}`);
 	if (!el) {
 		el = document.createElement('div');
-		el.setAttribute('id', `angular-sp-${opts.selector}`);
+		el.setAttribute('id', `angular-mf-${opts.selector}`);
 		document.body.appendChild(el);
 	}
 	return el;

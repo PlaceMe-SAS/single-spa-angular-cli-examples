@@ -14,6 +14,20 @@ module.exports = {
     port: 8080,
     publicPath: '/build/',
     contentBase: './',
+    proxy: {
+      "/apps/menu": {
+        target: "http://localhost:4200",
+        pathRewrite: {"/apps/menu" : ""}
+      },
+      "/apps/home": {
+          target: "http://localhost:4201",
+          pathRewrite: {"/apps/home" : ""}
+      },
+      "/apps/app1": {
+        target: "http://localhost:4202",
+        pathRewrite: {"/apps/app1" : ""}
+      }
+    }
   },
   resolve: {
     modules: [

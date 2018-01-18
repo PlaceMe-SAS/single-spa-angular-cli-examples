@@ -35,9 +35,18 @@ open http://localhost:8080
 npm install -g @angular/cli
 cd src/home
 npm install
-ng serve
-open http://localhost:4200
+ng serve --port=4200
 ```
+open http://localhost:4200
+
+```bash
+npm install -g @angular/cli
+cd src/home
+npm install
+ng serve
+open http://localhost:4201
+```
+open http://localhost:4201
 
 ### For production apps mode
 ```bash
@@ -52,8 +61,9 @@ repeat for all angular cli projects
 cd src
 ng new app1 --prefix=app1
 cd app1
-ng serve --port=4201
+ng serve --port=4202
 ```
+open http://localhost:4202
 
 ```
 // src/app1/loader.js

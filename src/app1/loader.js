@@ -2,7 +2,7 @@ import singleSpaAngularMicroFrontend from '../util/single-spa-angular-mf';
 
 const lifecycles = singleSpaAngularMicroFrontend({
     selector: 'app1-root',
-    baseScriptUrl: 'http://localhost:4201',
+    baseScriptUrl: '/apps/app1',
     scripts: [
         'inline.bundle.js',
         'polyfills.bundle.js',

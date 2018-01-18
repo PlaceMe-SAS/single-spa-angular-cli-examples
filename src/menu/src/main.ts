@@ -10,6 +10,6 @@ if (environment.production) {
   enableProdMode();
 }
 
-singleSpaAngularPlatform.mount('app1-root', (unmount) => {
+singleSpaAngularPlatform.mount('menu-root', (unmount) => {
   platformBrowserDynamic().bootstrapModule(AppModule).then(unmount);
 });
