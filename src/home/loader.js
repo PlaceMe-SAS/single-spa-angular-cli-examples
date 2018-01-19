@@ -1,4 +1,4 @@
-import singleSpaAngularCli from '../util/single-spa-angular-cli';
+import singleSpaAngularCli from 'single-spa-angular-cli';
 
 const lifecycles = singleSpaAngularCli({
     selector: 'home-root',

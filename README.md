@@ -19,7 +19,7 @@ This is an example of examples on how to use [single-spa](https://github.com/joe
 ## View the demo!
 A [demo is live](http://single-spa.surge.sh) on surge.sh.
 
-## This project is an Angular 5 portal as microfrontend lazy loaded
+## This project is an Angular 5 portal as microfrontend lazy loaded thanks to the CLI
 
 ## How to get the examples running locally
 ```bash
@@ -64,14 +64,14 @@ ng serve --port=4202
 ```
 open http://localhost:4202
 
-```
+```js
 // src/app1/loader.js
 
-import singleSpaAngularMicroFrontend from '../util/single-spa-angular-mf';
+import singleSpaAngularCli from 'single-spa-angular-cli';
 
-const lifecycles = singleSpaAngularMicroFrontend({
+const lifecycles = singleSpaAngularCli({
     selector: 'app1-root',
-    baseScriptUrl: 'http://localhost:4202',
+    baseScriptUrl: '/apps/app1',
     scripts: [
         'inline.bundle.js',
         'polyfills.bundle.js',
@@ -92,16 +92,17 @@ export const mount = [
 export const unmount = [
     lifecycles.unmount
 ];
-```
 
 ```
+
+```js
 // src/app1/src/polyfills.ts
 
 // Comment zone.js, it is globaly imported by the portal
 // import 'zone.js/dist/zone';  // Included with Angular CLI.
 ```
 
-```
+```html
 // src/app1/src/index.html
 
   <app1-root></app1-root>
@@ -109,7 +110,7 @@ export const unmount = [
 </body>
 ```
 
-```
+```js
 // src/main.js
 
 mainRegisterApplication('menu', () => import('./menu/loader.js'), singleSpaAngularCliRouter.hashPrefix('/**')).then(() => {
@@ -119,18 +120,15 @@ mainRegisterApplication('menu', () => import('./menu/loader.js'), singleSpaAngul
 start();
 ```
 
-```
+```js
 // src/app1/src/main.ts
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { singleSpaAngularCliPlatform } from '../../util/single-spa-angular-cli-platform';
+import { singleSpaAngularCliPlatform } from 'single-spa-angular-cli/src/single-spa-angular-cli-platform';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-
-declare const window;
 
 if (environment.production) {
   enableProdMode();
