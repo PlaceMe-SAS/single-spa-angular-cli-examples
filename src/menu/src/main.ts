@@ -1,7 +1,7 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { singleSpaAngularPlatform } from '../../util/single-spa-angular-platform';
+import { singleSpaAngularCliPlatform } from '../../util/single-spa-angular-cli-platform';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -10,6 +10,6 @@ if (environment.production) {
   enableProdMode();
 }
 
-singleSpaAngularPlatform.mount('menu-root', (unmount) => {
-  platformBrowserDynamic().bootstrapModule(AppModule).then(unmount);
+singleSpaAngularCliPlatform.mount('menu-root').subscribe((attachUnmount) => {
+  platformBrowserDynamic().bootstrapModule(AppModule).then(attachUnmount);
 });

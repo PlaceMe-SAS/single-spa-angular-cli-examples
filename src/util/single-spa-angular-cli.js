@@ -1,3 +1,5 @@
+import { setTimeout } from "timers";
+
 const defaultOpts = {
 	// required opts
 	selector: null,
@@ -5,7 +7,7 @@ const defaultOpts = {
 	scripts: []
 };
 
-export default function singleSpaAngularMicroFrontend(userOpts) {
+export default function singleSpaAngularCli(userOpts) {
 	if (typeof userOpts !== 'object') {
 		throw new Error(`single-spa-angular-mf requires a configuration object`);
 	}
@@ -36,38 +38,41 @@ export default function singleSpaAngularMicroFrontend(userOpts) {
 
 function bootstrap(opts) {
 	const domEl = getContainerEl(opts);
-	return opts.scripts.reduce((prev, scriptName) => prev.then(loadScriptTag(`${opts.baseScriptUrl}/${scriptName}`, domEl)), Promise.resolve());
+	return opts.scripts
+		.reduce((prev, scriptName) => prev.then(loadScriptTag(`${opts.baseScriptUrl}/${scriptName}`, domEl)), Promise.resolve());
 }
 
 function mount(opts) {
-	return Promise.resolve().then((resolve, reject) => {
+	return new Promise((resolve, reject) => {
 		const domEl = getContainerEl(opts);
 		const angularRootEl = document.createElement(opts.selector);
 		domEl.appendChild(angularRootEl);
 		if(window[opts.selector]) {
 			window[opts.selector].mount();
+			resolve();
 		} else {
 			console.error(`Cannot mount ${opts.selector} because that is not bootstraped`);
+			reject();
 		}
 	});
 }
 
 function unmount(opts) {
-	return Promise.resolve().then(() => {
+	return new Promise((resolve, reject) => {
 		if(window[opts.selector]) {
 			window[opts.selector].unmount();
 			getContainerEl(opts).innerHTML = '';
+			resolve();
 		} else {
-			console.error(`Cannot unmount ${opts.selector} because that is not bootstraped`);
+			reject(`Cannot unmount ${opts.selector} because that is not bootstraped`);
 		}
 	});
 }
 
 function getContainerEl(opts) {
-	let el = document.querySelector(`#angular-mf-${opts.selector}`);
+	let el = document.querySelector(opts.selector);
 	if (!el) {
-		el = document.createElement('div');
-		el.setAttribute('id', `angular-mf-${opts.selector}`);
+		el = document.createElement(opts.selector);
 		document.body.appendChild(el);
 	}
 	return el;
@@ -90,7 +95,7 @@ function loadScriptTag(url, domEl) {
 				reject(err);
 			};
 			script.src = url;
-			domEl.appendChild(script);
+			document.head.appendChild(script);
 		});
 	};
 }

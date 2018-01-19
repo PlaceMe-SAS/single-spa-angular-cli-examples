@@ -1,17 +1,11 @@
-import { declareChildApplication, start } from 'single-spa';
+import { registerApplication, start } from 'single-spa';
 import 'babel-polyfill';
 import 'zone.js';
 
-declareChildApplication('menu', () => import('./menu/loader.js'), () => true);
-declareChildApplication('home', () => import('./home/loader.js'), hashPrefix('/home'));
-declareChildApplication('app1', () => import('./app1/loader.js'), hashPrefix('/app1'));
-start();
+import { mainRegisterApplication, singleSpaAngularCliRouter } from './util/utils';
 
-function hashPrefix(prefix) {
-    return function (location) {
-        if(location.hash === '' || location.hash === '#'){
-            location.assign('#/home');
-        }
-        return location.hash.indexOf(`#${prefix}`) === 0;
-    }
-}
+mainRegisterApplication('menu', () => import('./menu/loader.js'), singleSpaAngularCliRouter.hashPrefix('/**')).then(() => {
+    registerApplication('home', () => import('./home/loader.js'), singleSpaAngularCliRouter.hashPrefix('/home', true));
+    registerApplication('app1', () => import('./app1/loader.js'), singleSpaAngularCliRouter.hashPrefix('/app1'));
+});
+start();

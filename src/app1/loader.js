@@ -1,6 +1,6 @@
-import singleSpaAngularMicroFrontend from '../util/single-spa-angular-mf';
+import singleSpaAngularCli from '../util/single-spa-angular-cli';
 
-const lifecycles = singleSpaAngularMicroFrontend({
+const lifecycles = singleSpaAngularCli({
     selector: 'app1-root',
     baseScriptUrl: '/apps/app1',
     scripts: [

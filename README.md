@@ -33,7 +33,7 @@ open http://localhost:8080
 ### Serve your angular project
 ```bash
 npm install -g @angular/cli
-cd src/home
+cd src/menu
 npm install
 ng serve --port=4200
 ```
@@ -44,7 +44,6 @@ npm install -g @angular/cli
 cd src/home
 npm install
 ng serve
-open http://localhost:4201
 ```
 open http://localhost:4201
 
@@ -72,7 +71,7 @@ import singleSpaAngularMicroFrontend from '../util/single-spa-angular-mf';
 
 const lifecycles = singleSpaAngularMicroFrontend({
     selector: 'app1-root',
-    baseScriptUrl: 'http://localhost:4201',
+    baseScriptUrl: 'http://localhost:4202',
     scripts: [
         'inline.bundle.js',
         'polyfills.bundle.js',
@@ -113,7 +112,11 @@ export const unmount = [
 ```
 // src/main.js
 
-declareChildApplication('app1', () => import('./app1/loader.js'), hashPrefix('/app1'));
+mainRegisterApplication('menu', () => import('./menu/loader.js'), singleSpaAngularCliRouter.hashPrefix('/**')).then(() => {
+    registerApplication('home', () => import('./home/loader.js'), singleSpaAngularCliRouter.hashPrefix('/home', true));
+    registerApplication('app1', () => import('./app1/loader.js'), singleSpaAngularCliRouter.hashPrefix('/app1'));
+});
+start();
 ```
 
 ```
@@ -122,7 +125,7 @@ declareChildApplication('app1', () => import('./app1/loader.js'), hashPrefix('/a
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { singleSpaAngularPlatform } from '../../util/single-spa-angular-platform';
+import { singleSpaAngularCliPlatform } from '../../util/single-spa-angular-cli-platform';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -133,7 +136,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-singleSpaAngularPlatform.mount('app1-root', (unmount) => {
-  platformBrowserDynamic().bootstrapModule(AppModule).then(unmount);
+singleSpaAngularCliPlatform.mount('app1-root').subscribe((attachUnmount) => {
+  platformBrowserDynamic().bootstrapModule(AppModule).then(attachUnmount);
 });
 ```
