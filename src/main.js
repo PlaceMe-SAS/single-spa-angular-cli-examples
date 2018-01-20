@@ -1,5 +1,5 @@
 import { registerApplication, start } from 'single-spa';
-import { mainRegisterApplication, singleSpaAngularCliRouter } from 'single-spa-angular-cli/src/utils';
+import { mainRegisterApplication, singleSpaAngularCliRouter } from 'single-spa-angular-cli/lib/utils';
 import 'babel-polyfill';
 import 'zone.js';
 
