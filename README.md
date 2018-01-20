@@ -21,9 +21,11 @@ A [demo is live](http://single-spa.surge.sh) on surge.sh.
 
 ## This project is an Angular 5 portal as microfrontend lazy loaded thanks to the CLI
 
+The npm project is based on [single-spa-angular-cli](https://www.npmjs.com/package/single-spa-angular-cli)
+
 ## How to get the examples running locally
 ```bash
-git clone git@github.com:PlaceMe-SAS/single-spa-examples.git
+git clone git@github.com:PlaceMe-SAS/single-spa-angular-cli-examples.git
 cd single-spa-examples
 npm install
 npm run start
@@ -139,7 +141,6 @@ import { registerApplication, start } from 'single-spa';
 import { mainRegisterApplication, singleSpaAngularCliRouter } from 'single-spa-angular-cli/src/utils';
 import 'babel-polyfill';
 import 'zone.js';
-
 
 mainRegisterApplication('menu', () => import('./menu/loader.js'), singleSpaAngularCliRouter.hashPrefix('/**')).then(() => {
     registerApplication('home', () => import('./home/loader.js'), singleSpaAngularCliRouter.hashPrefix('/home', true));
