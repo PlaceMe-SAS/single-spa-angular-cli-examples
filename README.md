@@ -64,8 +64,30 @@ ng serve --port=4202
 ```
 open http://localhost:4202
 
+```js 
+// Webpack proxy
+devServer: {
+    port: 8080,
+    publicPath: '/build/',
+    contentBase: './',
+    proxy: {
+      "/apps/menu": {
+        target: "http://localhost:4200",
+        pathRewrite: {"/apps/menu" : ""}
+      },
+      "/apps/home": {
+          target: "http://localhost:4201",
+          pathRewrite: {"/apps/home" : ""}
+      },
+      "/apps/app1": {
+        target: "http://localhost:4202",
+        pathRewrite: {"/apps/app1" : ""}
+      }
+    }
+  },
+```
+
 ```js
-// src/app1/loader.js
 
 import singleSpaAngularCli from 'single-spa-angular-cli';
 
@@ -113,6 +135,12 @@ export const unmount = [
 ```js
 // src/main.js
 
+import { registerApplication, start } from 'single-spa';
+import { mainRegisterApplication, singleSpaAngularCliRouter } from 'single-spa-angular-cli/src/utils';
+import 'babel-polyfill';
+import 'zone.js';
+
+
 mainRegisterApplication('menu', () => import('./menu/loader.js'), singleSpaAngularCliRouter.hashPrefix('/**')).then(() => {
     registerApplication('home', () => import('./home/loader.js'), singleSpaAngularCliRouter.hashPrefix('/home', true));
     registerApplication('app1', () => import('./app1/loader.js'), singleSpaAngularCliRouter.hashPrefix('/app1'));
@@ -124,8 +152,9 @@ start();
 // src/app1/src/main.ts
 
 import { enableProdMode } from '@angular/core';
+import { Router } from '@angular/router';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { singleSpaAngularCliPlatform } from 'single-spa-angular-cli/src/single-spa-angular-cli-platform';
+import { singleSpaAngularCliPlatform } from 'single-spa-angular-cli/lib/single-spa-angular-cli-platform';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -134,7 +163,8 @@ if (environment.production) {
   enableProdMode();
 }
 
-singleSpaAngularCliPlatform.mount('app1-root').subscribe((attachUnmount) => {
+// Router is not mandatory, only if you use a router for your app1
+singleSpaAngularCliPlatform.mount('app1-root', Router).subscribe((attachUnmount) => {
   platformBrowserDynamic().bootstrapModule(AppModule).then(attachUnmount);
 });
 ```
