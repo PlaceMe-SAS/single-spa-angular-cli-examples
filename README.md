@@ -149,6 +149,11 @@ mainRegisterApplication('menu', () => import('./menu/loader.js'), singleSpaAngul
 start();
 ```
 
+```html
+<!-- index.html -->
+<body data-single-spa>
+```
+
 ```js
 // src/app1/src/main.ts
 
