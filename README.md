@@ -27,44 +27,41 @@ The npm project is based on [single-spa-angular-cli](https://www.npmjs.com/packa
 ```bash
 git clone git@github.com:PlaceMe-SAS/single-spa-angular-cli-examples.git
 cd single-spa-examples
+npm install -g @angular/cli
 npm install
 npm run start
 open http://localhost:8080
 ```
+That's all!
 
-### Serve your angular project
+### Serve your angular app project for developement mode
 ```bash
-npm install -g @angular/cli
-cd src/menu
+cd src/apps/menu
 npm install
 ng serve --port=4200
 ```
 open http://localhost:4200
 
+### For production apps mode by application
 ```bash
-npm install -g @angular/cli
-cd src/home
-npm install
-ng serve
+cd src/apps/menu
+ng build --prod --output-hashing=media
 ```
-open http://localhost:4201
 
-### For production apps mode
+### For production apps mode for all apps
 ```bash
-ng build --prod
+npm run ng:build
 ```
-And replace the target url of your child app
-
-repeat for all angular cli projects
 
 ## Add an angular cli apps
 ```bash
-cd src
+cd src/apps
 ng new app1 --prefix=app1
 cd app1
 ng serve --port=4202
 ```
 open http://localhost:4202
+or change your loader to fetch dev scripts and styles served by the cli
 
 ```js 
 // Webpack proxy
@@ -73,7 +70,7 @@ devServer: {
     publicPath: '/build/',
     contentBase: './',
     proxy: {
-      "/apps/menu": {
+      "/apps/.*": {
         target: "http://localhost:4200",
         pathRewrite: {"/apps/menu" : ""}
       },
@@ -90,16 +87,20 @@ devServer: {
 ```
 
 ```js
+// src/loaders/app1.js
 
 import singleSpaAngularCli from 'single-spa-angular-cli';
 
 const lifecycles = singleSpaAngularCli({
+    name: 'app1',
     selector: 'app1-root',
-    baseScriptUrl: '/apps/app1',
+    baseScriptUrl: '/src/apps/app1/dist',
+    css: [
+        'styles.bundle.css',
+    ],
     scripts: [
         'inline.bundle.js',
         'polyfills.bundle.js',
-        'styles.bundle.js',
         'vendor.bundle.js',
         'main.bundle.js'
     ]
@@ -115,6 +116,10 @@ export const mount = [
 
 export const unmount = [
     lifecycles.unmount
+];
+
+export const unload = [
+    lifecycles.unload
 ];
 
 ```
@@ -145,6 +150,7 @@ import 'zone.js';
 mainRegisterApplication('menu', () => import('./menu/loader.js'), singleSpaAngularCliRouter.hashPrefix('/**')).then(() => {
     registerApplication('home', () => import('./home/loader.js'), singleSpaAngularCliRouter.hashPrefix('/home', true));
     registerApplication('app1', () => import('./app1/loader.js'), singleSpaAngularCliRouter.hashPrefix('/app1'));
+    registerApplication('help', () => import('./help/loader.js'), singleSpaAngularCliRouter.hashPrefix('/app1'));
 });
 start();
 ```
@@ -155,7 +161,7 @@ start();
 ```
 
 ```js
-// src/app1/src/main.ts
+// src/apps/app1/src/main.ts
 
 import { enableProdMode } from '@angular/core';
 import { Router } from '@angular/router';

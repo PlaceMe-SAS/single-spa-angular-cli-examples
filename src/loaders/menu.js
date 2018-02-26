@@ -1,13 +1,15 @@
 import singleSpaAngularCli from 'single-spa-angular-cli';
 
 const lifecycles = singleSpaAngularCli({
-    selector: 'app1-root',
-    baseScriptUrl: '/apps/app1',
+    name: 'menu',
+    selector: 'menu-root',
+    baseScriptUrl: '/src/apps/menu/dist',
+    styles: [
+        'styles.bundle.css',
+    ],
     scripts: [
         'inline.bundle.js',
         'polyfills.bundle.js',
-        'styles.bundle.js',
-        'vendor.bundle.js',
         'main.bundle.js'
     ]
 });
@@ -22,4 +24,8 @@ export const mount = [
 
 export const unmount = [
     lifecycles.unmount
+];
+
+export const unload = [
+    lifecycles.unload
 ];

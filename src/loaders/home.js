@@ -1,15 +1,17 @@
 import singleSpaAngularCli from 'single-spa-angular-cli';
 
 const lifecycles = singleSpaAngularCli({
+    name: 'home',
     selector: 'home-root',
-    baseScriptUrl: '/apps/home',
+    baseScriptUrl: '/src/apps/home/dist',
+    styles: [
+        'styles.bundle.css',
+    ],
     scripts: [
         'inline.bundle.js',
         'polyfills.bundle.js',
-        'styles.bundle.js',
-        'vendor.bundle.js',
-        'route2-routing.module.chunk.js',
-        'main.bundle.js'
+        'main.bundle.js',
+        '0.chunk.js'
     ]
 });
 
@@ -23,4 +25,8 @@ export const mount = [
 
 export const unmount = [
     lifecycles.unmount
+];
+
+export const unload = [
+    lifecycles.unload
 ];

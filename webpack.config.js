@@ -15,24 +15,13 @@ module.exports = {
     publicPath: '/build/',
     contentBase: './',
     proxy: {
-      "/apps/menu": {
-        target: "http://localhost:4200",
-        pathRewrite: {"/apps/menu" : ""}
-      },
-      "/apps/home": {
-          target: "http://localhost:4201",
-          pathRewrite: {"/apps/home" : ""}
-      },
-      "/apps/app1": {
-        target: "http://localhost:4202",
-        pathRewrite: {"/apps/app1" : ""}
-      }
+
     }
   },
   resolve: {
     modules: [
-      "node_modules",
-      path.resolve(__dirname, "./"),
+      'node_modules',
+      path.resolve(__dirname, './'),
     ],
     alias: {
       'single-spa': path.resolve(__dirname, 'node_modules/single-spa/lib/single-spa.js'),
@@ -75,7 +64,7 @@ function getBabelConfig() {
     presets: [
       ['babel-preset-env', {
         targets: {
-          "browsers": ["last 2 versions"],
+          'browsers': ['last 2 versions'],
         },
       }],
     ],
