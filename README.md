@@ -63,29 +63,6 @@ ng serve --port=4202
 open http://localhost:4202
 or change your loader to fetch dev scripts and styles served by the cli
 
-```js 
-// Webpack proxy
-devServer: {
-    port: 8080,
-    publicPath: '/build/',
-    contentBase: './',
-    proxy: {
-      "/apps/.*": {
-        target: "http://localhost:4200",
-        pathRewrite: {"/apps/menu" : ""}
-      },
-      "/apps/home": {
-          target: "http://localhost:4201",
-          pathRewrite: {"/apps/home" : ""}
-      },
-      "/apps/app1": {
-        target: "http://localhost:4202",
-        pathRewrite: {"/apps/app1" : ""}
-      }
-    }
-  },
-```
-
 ```js
 // src/loaders/app1.js
 
@@ -143,15 +120,21 @@ export const unload = [
 // src/main.js
 
 import { registerApplication, start } from 'single-spa';
-import { mainRegisterApplication, singleSpaAngularCliRouter } from 'single-spa-angular-cli/lib/utils';
+import { singleSpaAngularCliRouter } from 'single-spa-angular-cli/lib/utils';
 import 'babel-polyfill';
 import 'zone.js';
 
-mainRegisterApplication('menu', () => import('./menu/loader.js'), singleSpaAngularCliRouter.hashPrefix('/**')).then(() => {
-    registerApplication('home', () => import('./home/loader.js'), singleSpaAngularCliRouter.hashPrefix('/home', true));
-    registerApplication('app1', () => import('./app1/loader.js'), singleSpaAngularCliRouter.hashPrefix('/app1'));
-    registerApplication('help', () => import('./help/loader.js'), singleSpaAngularCliRouter.hashPrefix('/app1'));
-});
+const LOADER = {
+    menu: import('./loaders/menu.js'),
+    home: import('./loaders/home.js'),
+    app1: import('./loaders/app1.js'),
+    help: import('./loaders/help.js')
+};
+
+registerApplication('menu', () => LOADER.menu, singleSpaAngularCliRouter.hashPrefix('/**', true));
+registerApplication('home', () => LOADER.home, singleSpaAngularCliRouter.hashPrefix('/home', true));
+registerApplication('app1', () => LOADER.app1, singleSpaAngularCliRouter.hashPrefix('/app1'));
+registerApplication('help', () => LOADER.help, singleSpaAngularCliRouter.hashPrefix('/app1'));
 start();
 ```
 
