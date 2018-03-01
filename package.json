@@ -3,8 +3,8 @@
   "name": "single-spa-angular-portal",
   "description": "This is an example of examples on how to use [single-spa](https://github.com/joeldenning/single-spa) in a variety of contexts. Right now there are examples with the following technologies:",
   "scripts": {
-    "preinstall": "npm i ./src/apps/menu && npm i ./src/apps/home && npm i ./src/apps/help",
-    "ng:build": " cd  ./src/apps/menu && ng build --prod --output-hashing=media && cd  ../home && ng build --prod --output-hashing=media && cd  ../app1 && ng build --prod --output-hashing=media && cd  ../help && ng build --prod --output-hashing=media",
+    "preinstall": "cd ./src/apps/menu && npm i && cd ../home && npm i && cd  ../app1 && npm i && cd  ../help && npm i",
+    "ng:build": "cd ./src/apps/menu && ng build --prod --output-hashing=media && cd ../home && ng build --prod --output-hashing=media && cd ../app1 && ng build --prod --output-hashing=media && cd ../help && ng build --prod --output-hashing=media",
     "start": "webpack-dev-server --open",
     "build-webpack": "webpack --config webpack.config.js"
   },
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/PlaceMe-SAS/single-spa-examples#readme",
   "devDependencies": {
+    "@angular-devkit/core": "^0.4.3",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
