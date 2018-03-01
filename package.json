@@ -40,7 +40,7 @@
     "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
-    "single-spa": "^3.8.1",
+    "single-spa": "^3.9.0",
     "single-spa-angular-cli": "0.2.0",
     "zone.js": "^0.8.14"
   }
