@@ -4,9 +4,8 @@
   "description": "This is an example of examples on how to use [single-spa](https://github.com/joeldenning/single-spa) in a variety of contexts. Right now there are examples with the following technologies:",
   "scripts": {
     "preinstall": "npm i ./src/apps/menu && npm i ./src/apps/home && npm i ./src/apps/help",
-    "ng:build": " cd  ./src/apps/menu && npm run ng build -- --prod --output-hashing=media && cd  ../home && npm run ng build -- --prod --output-hashing=media && cd  ../app1 && npm run ng build -- --prod --output-hashing=media && cd  ../help && npm run ng build -- --prod --output-hashing=media",
-    "start": "webpack-dev-server",
-    "build": "rimraf build && yarn ember-install && yarn build-ember && yarn build-vanilla",
+    "ng:build": " cd  ./src/apps/menu && ng build --prod --output-hashing=media && cd  ../home && ng build --prod --output-hashing=media && cd  ../app1 && ng build --prod --output-hashing=media && cd  ../help && ng build --prod --output-hashing=media",
+    "start": "webpack-dev-server --open",
     "build-webpack": "webpack --config webpack.config.js"
   },
   "repository": {

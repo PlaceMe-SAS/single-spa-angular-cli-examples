@@ -26,11 +26,11 @@ The npm project is based on [single-spa-angular-cli](https://www.npmjs.com/packa
 ## How to get the examples running locally
 ```bash
 git clone git@github.com:PlaceMe-SAS/single-spa-angular-cli-examples.git
-cd single-spa-examples
+cd single-spa-angular-cli-examples
 npm install -g @angular/cli
 npm install
-npm run start
-open http://localhost:8080
+npm run ng:build
+npm start
 ```
 That's all!
 
