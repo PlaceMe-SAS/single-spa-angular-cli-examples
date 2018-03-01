@@ -39,11 +39,8 @@
     "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
-    "help": "file:src/apps/help",
-    "menu": "file:src/apps/menu",
     "single-spa": "^3.8.1",
-    "single-spa-angular-cli": "file:../single-spa-angular-cli",
-    "web-component-app": "file:src/apps/home",
+    "single-spa-angular-cli": "0.1.12",
     "zone.js": "^0.8.14"
   }
 }
