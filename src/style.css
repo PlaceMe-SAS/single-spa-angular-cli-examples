@@ -13,11 +13,11 @@ app1-root {
 }
 
 help-root {
-    border-top: 3px solid grey;
-    padding: 20px;
-    position: fixed;
-    left: 0;
+    position: absolute;
+    top: 64px;
     right: 0;
     bottom: 0;
-    height: 50%;
+    width: 50%;
+    min-width: 350px;
+    max-width: 800px;
 }

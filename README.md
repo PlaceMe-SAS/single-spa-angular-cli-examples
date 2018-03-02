@@ -34,6 +34,13 @@ npm start
 ```
 That's all!
 
+## How to perform CI tasks
+```bash
+npm run ng:lint
+npm run ng:test
+```
+That's all!
+
 ### Serve your angular app project for developement mode
 ```bash
 cd src/apps/menu
@@ -41,6 +48,7 @@ npm install
 ng serve --port=4200
 ```
 open http://localhost:4200
+Change your loader to use http://localhost:4200 and correct scripts and styles
 
 ### For production apps mode by application
 ```bash
@@ -124,17 +132,11 @@ import { singleSpaAngularCliRouter } from 'single-spa-angular-cli/lib/utils';
 import 'babel-polyfill';
 import 'zone.js';
 
-const LOADER = {
-    menu: import('./loaders/menu.js'),
-    home: import('./loaders/home.js'),
-    app1: import('./loaders/app1.js'),
-    help: import('./loaders/help.js')
-};
+registerApplication('menu', import('./loaders/menu.js'), singleSpaAngularCliRouter.hashPrefix('/**'));
+registerApplication('home', import('./loaders/home.js'), singleSpaAngularCliRouter.hashPrefix('/home', true));
+registerApplication('app1', import('./loaders/app1.js'), singleSpaAngularCliRouter.hashPrefix('/app1'));
+registerApplication('help', import('./loaders/help.js'), singleSpaAngularCliRouter.hasParameter('help', 'open'));
 
-registerApplication('menu', () => LOADER.menu, singleSpaAngularCliRouter.hashPrefix('/**', true));
-registerApplication('home', () => LOADER.home, singleSpaAngularCliRouter.hashPrefix('/home', true));
-registerApplication('app1', () => LOADER.app1, singleSpaAngularCliRouter.hashPrefix('/app1'));
-registerApplication('help', () => LOADER.help, singleSpaAngularCliRouter.hashPrefix('/app1'));
 start();
 ```
 
@@ -159,7 +161,11 @@ if (environment.production) {
 }
 
 // Router is not mandatory, only if you use a router for your app1
-singleSpaAngularCliPlatform.mount('app1-root', Router).subscribe((attachUnmount) => {
-  platformBrowserDynamic().bootstrapModule(AppModule).then(attachUnmount);
+singleSpaAngularCliPlatform.mount('app1', Router).subscribe(({ props, attachUnmount }) => {
+  platformBrowserDynamic().bootstrapModule(AppModule).then((module) => {
+    attachUnmount(module);
+    // Do something with props if you want
+    // Ex : module.instance.setSomething(...)
+  });
 });
 ```

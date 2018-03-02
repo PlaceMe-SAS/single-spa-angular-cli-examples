@@ -9,6 +9,10 @@ if (environment.production) {
   enableProdMode();
 }
 
-singleSpaAngularCliPlatform.mount('help-root').subscribe((attachUnmount) => {
-  platformBrowserDynamic().bootstrapModule(AppModule).then(attachUnmount);
+singleSpaAngularCliPlatform.mount('help').subscribe(({ props, attachUnmount }) => {
+  platformBrowserDynamic().bootstrapModule(AppModule).then((module) => {
+    attachUnmount(module);
+    // Do something with props if you want
+    // Ex : module.instance.setSomething(...)
+  });
 });

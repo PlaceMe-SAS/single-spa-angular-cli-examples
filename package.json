@@ -4,6 +4,8 @@
   "description": "This is an example of examples on how to use [single-spa](https://github.com/joeldenning/single-spa) in a variety of contexts. Right now there are examples with the following technologies:",
   "scripts": {
     "preinstall": "cd ./src/apps/menu && npm i && cd ../home && npm i && cd  ../app1 && npm i && cd  ../help && npm i",
+    "ng:lint": "cd ./src/apps/menu && ng lint && cd ../home && ng lint && cd ../app1 && ng lint && cd ../help && ng lint",
+    "ng:test": "cd ./src/apps/menu && ng test --watch=false && cd ../home && ng test --watch=false && cd ../app1 && ng test --watch=false && cd ../help && ng test --watch=false",
     "ng:build": "cd ./src/apps/menu && ng build --prod --output-hashing=media && cd ../home && ng build --prod --output-hashing=media && cd ../app1 && ng build --prod --output-hashing=media && cd ../help && ng build --prod --output-hashing=media",
     "start": "webpack-dev-server --open",
     "build-webpack": "webpack --config webpack.config.js"
@@ -41,7 +43,7 @@
   },
   "dependencies": {
     "single-spa": "^3.9.0",
-    "single-spa-angular-cli": "0.2.0",
+    "single-spa-angular-cli": "0.2.2",
     "zone.js": "^0.8.14"
   }
 }
