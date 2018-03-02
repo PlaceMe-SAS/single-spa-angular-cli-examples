@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "single-spa": "^3.9.0",
-    "single-spa-angular-cli": "0.2.2",
+    "single-spa-angular-cli": "0.2.3",
     "zone.js": "^0.8.14"
   }
 }

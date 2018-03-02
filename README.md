@@ -132,6 +132,8 @@ import { singleSpaAngularCliRouter } from 'single-spa-angular-cli/lib/utils';
 import 'babel-polyfill';
 import 'zone.js';
 
+// singleSpaAngularCliRouter.setPathStrategy('pathname');
+
 registerApplication('menu', import('./loaders/menu.js'), singleSpaAngularCliRouter.hashPrefix('/**'));
 registerApplication('home', import('./loaders/home.js'), singleSpaAngularCliRouter.hashPrefix('/home', true));
 registerApplication('app1', import('./loaders/app1.js'), singleSpaAngularCliRouter.hashPrefix('/app1'));
