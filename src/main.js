@@ -3,6 +3,9 @@ import { router } from 'single-spa-angular-cli';
 import 'babel-polyfill';
 import 'zone.js';
 
+router.setPathStrategy(router.HASH);
+// router.setPathStrategy(router.PATHNAME);
+
 registerApplication('menu', import('./loaders/menu.js'), router.hashPrefix('/**'));
 registerApplication('home', import('./loaders/home.js'), router.hashPrefix('/home', true));
 registerApplication('app1', import('./loaders/app1.js'), router.hashPrefix('/app1'));
