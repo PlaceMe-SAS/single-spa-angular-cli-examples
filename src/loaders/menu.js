@@ -1,6 +1,6 @@
-import singleSpaAngularCli from 'single-spa-angular-cli';
+import { loader } from 'single-spa-angular-cli';
 
-const lifecycles = singleSpaAngularCli({
+const lifecycles = loader({
     name: 'menu',
     selector: 'menu-root',
     baseScriptUrl: '/src/apps/menu/dist',

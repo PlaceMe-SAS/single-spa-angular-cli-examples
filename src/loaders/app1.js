@@ -1,6 +1,6 @@
-import singleSpaAngularCli from 'single-spa-angular-cli';
+import { loader } from 'single-spa-angular-cli';
 
-const lifecycles = singleSpaAngularCli({
+const lifecycles = loader({
     name: 'app1',
     selector: 'app1-root',
     baseScriptUrl: '/src/apps/app1/dist',
