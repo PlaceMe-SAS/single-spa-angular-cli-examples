@@ -50,7 +50,7 @@ That's all!
 cd src/apps/home
 ng serve --port=4201
 ```
-open http://localhost:4200
+open http://localhost:4201
 
 ### Configure a proxy to use the cli dev mode app
 ```js
