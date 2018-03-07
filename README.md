@@ -56,46 +56,19 @@ open http://localhost:4201
 ```js
 // webpack.config.js
 
-    ...
-    proxy: {
-      /**       
-      '/src/apps/menu/dist': {
-        target: 'http://localhost:4200',
-        pathRewrite: {
-          '/src/apps/menu/dist': ''
-        }
-      },
-      */
-      '/src/apps/home/dist': {
-        target: 'http://localhost:4201',
-        pathRewrite: {
-          '/src/apps/home/dist': ''
-        }
-      },
-      /**
-      '/src/apps/app1/dist': {
-        target: 'http://localhost:4202',
-        pathRewrite: {
-          '/src/apps/app1/dist': ''
-        }
-      },
-      */
-      /**
-      '/src/apps/help/dist': {
-        target: 'http://localhost:4203',
-        pathRewrite: {
-          '/src/apps/help/dist': ''
-        }
-      }
-      */
-    }
+const devApplications = {
+  //menu: 'http://localhost:4200',
+  home: 'http://localhost:4201',
+  //app1: 'http://localhost:4202',
+  //help: 'http://localhost:4203'
+};
     ...
 ```
 
 ### For production apps mode by application
 ```bash
 cd src/apps/home
-ng build --prod
+ng build --prod  -op ../../../apps/home
 ```
 
 ### For production apps mode for all apps
@@ -114,33 +87,37 @@ ng serve --port=4202
 ```
 open http://localhost:4202
 
-### Create an angular cli loader
+### Configure your angular cli applications
 ```js
-// src/loaders/app1.js
+// src/applications.config.json
 
-import { loader } from 'single-spa-angular-cli';
-
-const lifecycles = loader({
-    name: 'app1',
-    selector: 'app1-root',
-    outputPath: '/src/apps/app1/dist'
-});
-
-export const bootstrap = [
-    lifecycles.bootstrap
-];
-
-export const mount = [
-    lifecycles.mount
-];
-
-export const unmount = [
-    lifecycles.unmount
-];
-
-export const unload = [
-    lifecycles.unload
-];
+[
+    {
+        "name": "menu",
+        "selector": "menu-root",
+        "outputPath": "/apps/menu",
+        "matchRoute": "/**"
+    },
+    {
+        "name": "home",
+        "selector": "home-root",
+        "outputPath": "/apps/home",
+        "matchRoute": "/apps/home/",
+        "isDefaultApp": true
+    },
+    {
+        "name": "app1",
+        "selector": "app1-root",
+        "outputPath": "/apps/app1",
+        "matchRoute": "/apps/app1/"
+    },
+    {
+        "name": "help",
+        "selector": "help-root",
+        "outputPath": "/apps/help",
+        "matchRoute": "help=open"
+    }
+]
 ```
 
 ### Remove Zone.js from the cli app bundle
@@ -165,14 +142,31 @@ export const unload = [
 // src/main.js
 
 import { registerApplication, start } from 'single-spa';
-import { router } from 'single-spa-angular-cli';
+import { loader, router } from 'single-spa-angular-cli';
 import 'babel-polyfill';
 import 'zone.js';
 
-registerApplication('menu', import('./loaders/menu.js'), router.hashPrefix('/**'));
-registerApplication('home', import('./loaders/home.js'), router.hashPrefix('/home', true));
-registerApplication('app1', import('./loaders/app1.js'), router.hashPrefix('/app1'));
-registerApplication('help', import('./loaders/help.js'), router.hasParameter('help', 'open'));
+const applications = require('./applications.config.json');
+
+for (const application of applications) {
+    registerApplication(
+        application.name,
+        (() => {
+            const lifecycles = loader({
+                name: application.name,
+                selector: application.selector,
+                outputPath: application.outputPath
+            });
+            return {
+                bootstrap: [lifecycles.bootstrap],
+                mount: [lifecycles.mount],
+                unmount: [lifecycles.unmount],
+                unload: [lifecycles.unload],
+            };
+        })(),
+        router.matchRoute(application.matchRoute, application.isDefaultApp)
+    );
+}
 
 start();
 ```

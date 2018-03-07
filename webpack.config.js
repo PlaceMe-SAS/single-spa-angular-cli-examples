@@ -1,6 +1,13 @@
 const webpack = require('webpack');
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const applications = require('./src/applications.config.json');
+
+const devApplications = {
+  //menu: 'http://localhost:4200',
+  //home: 'http://localhost:4201',
+  //app1: 'http://localhost:4202',
+  //help: 'http://localhost:4203'
+};
 
 module.exports = {
   entry: __dirname + '/src/main.js',
@@ -15,40 +22,7 @@ module.exports = {
     publicPath: '/build/',
     contentBase: './',
     historyApiFallback: true,
-    proxy: {
-      /**       
-      '/src/apps/menu/dist': {
-        target: 'http://localhost:4200',
-        pathRewrite: {
-          '/src/apps/menu/dist': ''
-        }
-      },
-      */
-      /**       
-      '/src/apps/home/dist': {
-        target: 'http://localhost:4201',
-        pathRewrite: {
-          '/src/apps/home/dist': ''
-        }
-      },
-      */
-      /**
-      '/src/apps/app1/dist': {
-        target: 'http://localhost:4202',
-        pathRewrite: {
-          '/src/apps/app1/dist': ''
-        }
-      },
-      */
-      /**
-      '/src/apps/help/dist': {
-        target: 'http://localhost:4203',
-        pathRewrite: {
-          '/src/apps/help/dist': ''
-        }
-      }
-      */
-    }
+    proxy: getProxyConfig(applications, devApplications),
   },
   resolve: {
     modules: [
@@ -80,7 +54,6 @@ module.exports = {
       name: 'common',
       minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
     }),
-    // new CopyWebpackPlugin([{ from: 'src/apps/*/dist/**/*', to: '' }])
   ],
 };
 
@@ -100,4 +73,24 @@ function getBabelConfig() {
       'transform-function-bind',
     ],
   };
+}
+
+function getProxyConfig(applications, devApplications) {
+  const proxy = {};
+  for (const appName of Object.keys(devApplications)) {
+    const application = applications.find(a => a.name === appName);
+    const path = application.outputPath + '/';
+    proxy[path] = {
+      target: devApplications[appName],
+      pathRewrite: {
+        [path]: ''
+      },
+      bypass: function (req, res, proxyOptions) {
+        if (req.headers.accept.indexOf('html') !== -1) {
+          return '/index.html';
+        }
+      }
+    };
+  }
+  return proxy;
 }

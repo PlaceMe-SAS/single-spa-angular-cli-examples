@@ -6,7 +6,7 @@ import { APP_BASE_HREF } from '@angular/common';
 
 const routes: Routes = [
     {
-        path: 'home',
+        path: '',
         children: [
             { path: 'route1', component: Route1Component },
             { path: 'route2', loadChildren: 'app/route2module/route2-routing.module#Route2RoutingModule' }
@@ -20,7 +20,7 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     providers: [
-        { provide: APP_BASE_HREF, useValue: '/' }
+        { provide: APP_BASE_HREF, useValue: '/apps/home/' }
     ],
     exports: [RouterModule]
 })

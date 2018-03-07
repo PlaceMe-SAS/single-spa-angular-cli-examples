@@ -1,0 +1,27 @@
+[
+    {
+        "name": "menu",
+        "selector": "menu-root",
+        "outputPath": "/apps/menu",
+        "matchRoute": "/**"
+    },
+    {
+        "name": "home",
+        "selector": "home-root",
+        "outputPath": "/apps/home",
+        "matchRoute": "/apps/home/",
+        "isDefaultApp": true
+    },
+    {
+        "name": "app1",
+        "selector": "app1-root",
+        "outputPath": "/apps/app1",
+        "matchRoute": "/apps/app1/"
+    },
+    {
+        "name": "help",
+        "selector": "help-root",
+        "outputPath": "/apps/help",
+        "matchRoute": "help=open"
+    }
+]
