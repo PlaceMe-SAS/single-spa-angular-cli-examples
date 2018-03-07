@@ -3,15 +3,7 @@ import { loader } from 'single-spa-angular-cli';
 const lifecycles = loader({
     name: 'menu',
     selector: 'menu-root',
-    baseScriptUrl: '/src/apps/menu/dist',
-    styles: [
-        'styles.bundle.css',
-    ],
-    scripts: [
-        'inline.bundle.js',
-        'polyfills.bundle.js',
-        'main.bundle.js'
-    ]
+    outputPath: '/src/apps/menu/dist'
 });
 
 export const bootstrap = [

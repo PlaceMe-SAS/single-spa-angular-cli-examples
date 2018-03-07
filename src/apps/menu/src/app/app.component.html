@@ -1,13 +1,15 @@
 <mat-toolbar color="primary">
-  <span>Single Spa Angular Cli</span>
+  <span>
+    Single Spa Angular Cli
+  </span>
   <span class="spacer"></span>
-  <a href="/#/home">
+  <a href (click)="navigate('/home', $event)">
     <mat-icon class="example-icon">home</mat-icon>
   </a>
-  <a href="/#/app1">
+  <a href (click)="navigate('/app1', $event)">
     <mat-icon class="example-icon">dashboard</mat-icon>
   </a>
-  <a (click)="toggleHelp()">
+  <a href (click)="toggleHelp($event)">
     <mat-icon class="example-icon">help_outline</mat-icon>
   </a>
 </mat-toolbar>

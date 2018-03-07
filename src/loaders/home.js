@@ -3,16 +3,7 @@ import { loader } from 'single-spa-angular-cli';
 const lifecycles = loader({
     name: 'home',
     selector: 'home-root',
-    baseScriptUrl: '/src/apps/home/dist',
-    styles: [
-        'styles.bundle.css',
-    ],
-    scripts: [
-        'inline.bundle.js',
-        'polyfills.bundle.js',
-        'main.bundle.js',
-        '0.chunk.js'
-    ]
+    outputPath: '/src/apps/home/dist'
 });
 
 export const bootstrap = [

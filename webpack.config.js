@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const lodash = require('lodash');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: __dirname + '/src/main.js',
@@ -14,8 +14,40 @@ module.exports = {
     port: 8080,
     publicPath: '/build/',
     contentBase: './',
+    historyApiFallback: true,
     proxy: {
-
+      /**       
+      '/src/apps/menu/dist': {
+        target: 'http://localhost:4200',
+        pathRewrite: {
+          '/src/apps/menu/dist': ''
+        }
+      },
+      */
+      /**       
+      '/src/apps/home/dist': {
+        target: 'http://localhost:4201',
+        pathRewrite: {
+          '/src/apps/home/dist': ''
+        }
+      },
+      */
+      /**
+      '/src/apps/app1/dist': {
+        target: 'http://localhost:4202',
+        pathRewrite: {
+          '/src/apps/app1/dist': ''
+        }
+      },
+      */
+      /**
+      '/src/apps/help/dist': {
+        target: 'http://localhost:4203',
+        pathRewrite: {
+          '/src/apps/help/dist': ''
+        }
+      }
+      */
     }
   },
   resolve: {
@@ -23,9 +55,6 @@ module.exports = {
       'node_modules',
       path.resolve(__dirname, './'),
     ],
-    alias: {
-      'single-spa': path.resolve(__dirname, 'node_modules/single-spa/lib/single-spa.js'),
-    },
   },
   module: {
     rules: [
@@ -43,11 +72,6 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: getBabelConfig(),
-      },
-      {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        loader: 'ts-loader',
       }
     ],
   },
@@ -56,6 +80,7 @@ module.exports = {
       name: 'common',
       minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
     }),
+    // new CopyWebpackPlugin([{ from: 'src/apps/*/dist/**/*', to: '' }])
   ],
 };
 

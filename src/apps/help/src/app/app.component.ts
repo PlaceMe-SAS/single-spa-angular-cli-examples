@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   url: string;
 
   ngOnInit(): void {
-    this.url = location.hash;
+    this.url = location.pathname;
   }
 
 }

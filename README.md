@@ -23,6 +23,9 @@ A [demo is live](http://single-spa.surge.sh) on surge.sh.
 
 The npm project is based on [single-spa-angular-cli](https://www.npmjs.com/package/single-spa-angular-cli)
 
+## View the Single SPA Angular CLI portal demo
+A [demo is live](http://single-spa-angular-cli.placeme.io) on placeme.io (comming soon).
+
 ## How to get the examples running locally
 ```bash
 git clone git@github.com:PlaceMe-SAS/single-spa-angular-cli-examples.git
@@ -41,27 +44,68 @@ npm run ng:test
 ```
 That's all!
 
+## Want to debug your app ?
 ### Serve your angular app project for developement mode
 ```bash
-cd src/apps/menu
-npm install
-ng serve --port=4200
+cd src/apps/home
+ng serve --port=4201
 ```
 open http://localhost:4200
-Change your loader to use http://localhost:4200 and correct scripts and styles
+
+### Configure a proxy to use the cli dev mode app
+```js
+// webpack.config.js
+
+    ...
+    proxy: {
+      /**       
+      '/src/apps/menu/dist': {
+        target: 'http://localhost:4200',
+        pathRewrite: {
+          '/src/apps/menu/dist': ''
+        }
+      },
+      */
+      '/src/apps/home/dist': {
+        target: 'http://localhost:4201',
+        pathRewrite: {
+          '/src/apps/home/dist': ''
+        }
+      },
+      /**
+      '/src/apps/app1/dist': {
+        target: 'http://localhost:4202',
+        pathRewrite: {
+          '/src/apps/app1/dist': ''
+        }
+      },
+      */
+      /**
+      '/src/apps/help/dist': {
+        target: 'http://localhost:4203',
+        pathRewrite: {
+          '/src/apps/help/dist': ''
+        }
+      }
+      */
+    }
+    ...
+```
 
 ### For production apps mode by application
 ```bash
-cd src/apps/menu
-ng build --prod --output-hashing=media
+cd src/apps/home
+ng build --prod
 ```
 
 ### For production apps mode for all apps
 ```bash
 npm run ng:build
+npm run build (comming soon)
 ```
 
 ## Add an angular cli apps
+### Create angular cli standard app
 ```bash
 cd src/apps
 ng new app1 --prefix=app1
@@ -69,26 +113,17 @@ cd app1
 ng serve --port=4202
 ```
 open http://localhost:4202
-or change your loader to fetch dev scripts and styles served by the cli
 
+### Create an angular cli loader
 ```js
 // src/loaders/app1.js
 
-import singleSpaAngularCli from 'single-spa-angular-cli';
+import { loader } from 'single-spa-angular-cli';
 
-const lifecycles = singleSpaAngularCli({
+const lifecycles = loader({
     name: 'app1',
     selector: 'app1-root',
-    baseScriptUrl: '/src/apps/app1/dist',
-    css: [
-        'styles.bundle.css',
-    ],
-    scripts: [
-        'inline.bundle.js',
-        'polyfills.bundle.js',
-        'vendor.bundle.js',
-        'main.bundle.js'
-    ]
+    outputPath: '/src/apps/app1/dist'
 });
 
 export const bootstrap = [
@@ -106,9 +141,9 @@ export const unmount = [
 export const unload = [
     lifecycles.unload
 ];
-
 ```
 
+### Remove Zone.js from the cli app bundle
 ```js
 // src/app1/src/polyfills.ts
 
@@ -116,6 +151,7 @@ export const unload = [
 // import 'zone.js/dist/zone';  // Included with Angular CLI.
 ```
 
+### Add Zone.js only for the cli app
 ```html
 // src/app1/src/index.html
 
@@ -124,36 +160,30 @@ export const unload = [
 </body>
 ```
 
+### Complete your Single Spa routes
 ```js
 // src/main.js
 
 import { registerApplication, start } from 'single-spa';
-import { singleSpaAngularCliRouter } from 'single-spa-angular-cli/lib/utils';
+import { router } from 'single-spa-angular-cli';
 import 'babel-polyfill';
 import 'zone.js';
 
-// singleSpaAngularCliRouter.setPathStrategy('pathname');
-
-registerApplication('menu', import('./loaders/menu.js'), singleSpaAngularCliRouter.hashPrefix('/**'));
-registerApplication('home', import('./loaders/home.js'), singleSpaAngularCliRouter.hashPrefix('/home', true));
-registerApplication('app1', import('./loaders/app1.js'), singleSpaAngularCliRouter.hashPrefix('/app1'));
-registerApplication('help', import('./loaders/help.js'), singleSpaAngularCliRouter.hasParameter('help', 'open'));
+registerApplication('menu', import('./loaders/menu.js'), router.hashPrefix('/**'));
+registerApplication('home', import('./loaders/home.js'), router.hashPrefix('/home', true));
+registerApplication('app1', import('./loaders/app1.js'), router.hashPrefix('/app1'));
+registerApplication('help', import('./loaders/help.js'), router.hasParameter('help', 'open'));
 
 start();
 ```
 
-```html
-<!-- index.html -->
-<body data-single-spa>
-```
-
+### Configure your Angular Cli App to be loaded by single spa
 ```js
 // src/apps/app1/src/main.ts
 
 import { enableProdMode } from '@angular/core';
-import { Router } from '@angular/router';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { singleSpaAngularCliPlatform } from 'single-spa-angular-cli/lib/single-spa-angular-cli-platform';
+import { platformSingleSpa } from 'single-spa-angular-cli';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -162,8 +192,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-// Router is not mandatory, only if you use a router for your app1
-singleSpaAngularCliPlatform.mount('app1', Router).subscribe(({ props, attachUnmount }) => {
+platformSingleSpa.mount('app1').subscribe(({ props, attachUnmount }) => {
   platformBrowserDynamic().bootstrapModule(AppModule).then((module) => {
     attachUnmount(module);
     // Do something with props if you want
