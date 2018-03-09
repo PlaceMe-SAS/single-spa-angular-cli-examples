@@ -20,7 +20,7 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     providers: [
-        { provide: APP_BASE_HREF, useValue: '/apps/home/' }
+        { provide: APP_BASE_HREF, useValue: '/home/' }
     ],
     exports: [RouterModule]
 })

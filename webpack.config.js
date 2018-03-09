@@ -1,16 +1,19 @@
 const webpack = require('webpack');
 const path = require('path');
-const applications = require('./src/applications.config.json');
+const applications = require('./portal/applications.config.json');
 
 const devApplications = {
-  //menu: 'http://localhost:4200',
-  //home: 'http://localhost:4201',
-  //app1: 'http://localhost:4202',
-  //help: 'http://localhost:4203'
+  menu: 'http://localhost:4200',
+  home: 'http://localhost:4201',
+  app1: 'http://localhost:4202',
+  help: 'http://localhost:4203'
 };
 
 module.exports = {
-  entry: __dirname + '/src/main.js',
+  entry: [
+    __dirname + '/portal/main.js',
+    __dirname + '/portal/main.css'
+  ],
   output: {
     path: process.cwd() + '/build',
     filename: '[name].js',
