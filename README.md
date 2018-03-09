@@ -1,20 +1,11 @@
-# single-spa-examples
-https://single-spa.surge.sh
+# single-spa-examples for single-spa-angular-cli
 
-This is an example of examples on how to use [single-spa](https://github.com/joeldenning/single-spa) in a variety of contexts. If you're looking for a simpler example that's just a webpack starter for single-spa, try out [simple-single-spa-webpack-example](https://github.com/joeldenning/simple-single-spa-webpack-example). Right now there are examples with the following technologies:
+## Single SPA
+[single-spa demo](https://single-spa.surge.sh)
+[single-spa](https://github.com/joeldenning/single-spa) 
+[simple-single-spa-webpack-example](https://github.com/joeldenning/simple-single-spa-webpack-example)
 
-- React
-- AngularJS
-- Angular
-- react-router
-- angular-ui-router
-- Webpack
-- Babel
-- Vue
-- Svelte
-- Ember
-- Inferno
-- Preact
+# Single SPA for Angular CLI
 
 ## View the demo!
 A [demo is live](http://single-spa.surge.sh) on surge.sh.
@@ -47,7 +38,7 @@ That's all!
 ## Want to debug your app ?
 ### Serve your angular app project for developement mode
 ```bash
-cd src/apps/home
+cd apps/home
 ng serve --port=4201
 ```
 open http://localhost:4201
@@ -65,64 +56,32 @@ const devApplications = {
     ...
 ```
 
-### For production apps mode by application
+## Want to build Apps
+### Build single application
 ```bash
-cd src/apps/home
-ng build --prod  -op ../../../apps/home
+cd apps/home
+ng build --prod  -op ../../build/home
 ```
 
-### For production apps mode for all apps
+### Build all applications
 ```bash
 npm run ng:build
 npm run build (comming soon)
 ```
 
-## Add an angular cli apps
-### Create angular cli standard app
+## Add an Angular CLI apps
+### Create Angular CLI standard app
 ```bash
-cd src/apps
+cd apps
 ng new app1 --prefix=app1
 cd app1
 ng serve --port=4202
 ```
 open http://localhost:4202
 
-### Configure your angular cli applications
-```js
-// src/applications.config.json
-
-[
-    {
-        "name": "menu",
-        "selector": "menu-root",
-        "outputPath": "/apps/menu",
-        "matchRoute": "/**"
-    },
-    {
-        "name": "home",
-        "selector": "home-root",
-        "outputPath": "/apps/home",
-        "matchRoute": "/apps/home/",
-        "isDefaultApp": true
-    },
-    {
-        "name": "app1",
-        "selector": "app1-root",
-        "outputPath": "/apps/app1",
-        "matchRoute": "/apps/app1/"
-    },
-    {
-        "name": "help",
-        "selector": "help-root",
-        "outputPath": "/apps/help",
-        "matchRoute": "help=open"
-    }
-]
-```
-
 ### Remove Zone.js from the cli app bundle
 ```js
-// src/app1/src/polyfills.ts
+// app1/src/polyfills.ts
 
 // Comment zone.js, it is globaly imported by the portal
 // import 'zone.js/dist/zone';  // Included with Angular CLI.
@@ -130,50 +89,16 @@ open http://localhost:4202
 
 ### Add Zone.js only for the cli app
 ```html
-// src/app1/src/index.html
+<!-- app1/src/index.html -->
 
   <app1-root></app1-root>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.8.19/zone.js"></script>
 </body>
 ```
 
-### Complete your Single Spa routes
-```js
-// src/main.js
-
-import { registerApplication, start } from 'single-spa';
-import { loader, router } from 'single-spa-angular-cli';
-import 'babel-polyfill';
-import 'zone.js';
-
-const applications = require('./applications.config.json');
-
-for (const application of applications) {
-    registerApplication(
-        application.name,
-        (() => {
-            const lifecycles = loader({
-                name: application.name,
-                selector: application.selector,
-                outputPath: application.outputPath
-            });
-            return {
-                bootstrap: [lifecycles.bootstrap],
-                mount: [lifecycles.mount],
-                unmount: [lifecycles.unmount],
-                unload: [lifecycles.unload],
-            };
-        })(),
-        router.matchRoute(application.matchRoute, application.isDefaultApp)
-    );
-}
-
-start();
-```
-
 ### Configure your Angular Cli App to be loaded by single spa
 ```js
-// src/apps/app1/src/main.ts
+// apps/app1/src/main.ts
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -193,4 +118,37 @@ platformSingleSpa.mount('app1').subscribe(({ props, attachUnmount }) => {
     // Ex : module.instance.setSomething(...)
   });
 });
+```
+
+### Configure your angular cli applications
+```js
+// portal/applications.config.json
+
+[
+    {
+        "name": "menu",
+        "selector": "menu-root",
+        "baseHref": "/menu",
+        "matchRoute": "/**"
+    },
+    {
+        "name": "home",
+        "selector": "home-root",
+        "baseHref": "/home",
+        "matchRoute": "/home/",
+        "isDefaultApp": true
+    },
+    {
+        "name": "app1",
+        "selector": "app1-root",
+        "baseHref": "/app1",
+        "matchRoute": "/app1/"
+    },
+    {
+        "name": "help",
+        "selector": "help-root",
+        "baseHref": "/help",
+        "matchRoute": "help=open"
+    }
+]
 ```

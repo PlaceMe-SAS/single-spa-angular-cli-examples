@@ -2,11 +2,13 @@ const webpack = require('webpack');
 const path = require('path');
 const applications = require('./portal/applications.config.json');
 
+const PORT = 8080;
+
 const devApplications = {
-  menu: 'http://localhost:4200',
-  home: 'http://localhost:4201',
-  app1: 'http://localhost:4202',
-  help: 'http://localhost:4203'
+  // menu: 'http://localhost:4200',
+  // home: 'http://localhost:4201',
+  // app1: 'http://localhost:4202',
+  // help: 'http://localhost:4203'
 };
 
 module.exports = {
@@ -21,7 +23,7 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   devServer: {
-    port: 8080,
+    port: PORT,
     publicPath: '/build/',
     contentBase: './',
     historyApiFallback: true,
@@ -77,12 +79,34 @@ function getBabelConfig() {
     ],
   };
 }
-
+function getProxyConfig(applications, devApplications) {
+  const proxy = {};
+  for (app of applications) {
+    const path = app.baseHref + '/';
+    let target = `http://localhost:${PORT}/build/${path}`;
+    if (devApplications.hasOwnProperty(app.name)) {
+      target = devApplications[app.name];
+    }
+    proxy[path] = {
+      target: target,
+      pathRewrite: {
+        [path]: ''
+      },
+      bypass: function (req, res, proxyOptions) {
+        if (req.headers.accept.indexOf('html') !== -1) {
+          return '/index.html';
+        }
+      }
+    };
+  }
+  return proxy;
+}
+/**
 function getProxyConfig(applications, devApplications) {
   const proxy = {};
   for (const appName of Object.keys(devApplications)) {
     const application = applications.find(a => a.name === appName);
-    const path = application.outputPath + '/';
+    const path = application.baseHref + '/';
     proxy[path] = {
       target: devApplications[appName],
       pathRewrite: {
@@ -97,3 +121,4 @@ function getProxyConfig(applications, devApplications) {
   }
   return proxy;
 }
+ */

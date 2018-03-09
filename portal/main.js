@@ -12,7 +12,7 @@ for (const application of applications) {
             const lifecycles = loader({
                 name: application.name,
                 selector: application.selector,
-                outputPath: application.outputPath
+                baseHref: application.baseHref
             });
             return {
                 bootstrap: [lifecycles.bootstrap],

@@ -2,26 +2,26 @@
     {
         "name": "menu",
         "selector": "menu-root",
-        "outputPath": "/menu",
+        "baseHref": "/menu",
         "matchRoute": "/**"
     },
     {
         "name": "home",
         "selector": "home-root",
-        "outputPath": "/home",
+        "baseHref": "/home",
         "matchRoute": "/home/",
         "isDefaultApp": true
     },
     {
         "name": "app1",
         "selector": "app1-root",
-        "outputPath": "/app1",
+        "baseHref": "/app1",
         "matchRoute": "/app1/"
     },
     {
         "name": "help",
         "selector": "help-root",
-        "outputPath": "/help",
+        "baseHref": "/help",
         "matchRoute": "help=open"
     }
 ]

@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { Route1Component } from './route1/route1.component';
 import { APP_BASE_HREF } from '@angular/common';
 
+declare const window: any;
+
 const routes: Routes = [
     {
         path: '',
@@ -20,7 +22,7 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     providers: [
-        { provide: APP_BASE_HREF, useValue: '/home/' }
+        { provide: APP_BASE_HREF, useValue: '/' + (window.location.pathname.split('/')[1] || '') }
     ],
     exports: [RouterModule]
 })
