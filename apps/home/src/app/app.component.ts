@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 
-declare const history: any;
+declare const location: any;
 
 @Component({
   selector: 'home-root',
@@ -13,12 +13,22 @@ export class AppComponent {
 
   }
 
-  navigate(path: string, event: Event): void {
-    this.ngZone.runOutsideAngular(() => {
-      history.pushState(null, null, path);
-      event.stopPropagation();
-      event.preventDefault();
-    });
+  getHelpUrl(): string {
+    let helpUrl;
+    const match = location.href.match(/help=(open|close)/);
+    const isOpen = match && match[1] === 'open';
+    if (isOpen) {
+      helpUrl = location.href.replace('help=open', 'help=close');
+    } else {
+      if (match) {
+        helpUrl = location.href.replace('help=close', 'help=open');
+      } else if (location.href.match(/\?/)) {
+        helpUrl = `${location.href}&help=open`;
+      } else {
+        helpUrl = `${location.href}?help=open`;
+      }
+    }
+    return helpUrl;
   }
 
 }

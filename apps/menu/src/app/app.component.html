@@ -3,13 +3,13 @@
     Portal
   </span>
   <span class="spacer"></span>
-  <a href (click)="navigate('/home/', $event)">
+  <a singleSpaRouterLink="/home/">
     <mat-icon class="example-icon">home</mat-icon>
   </a>
-  <a href (click)="navigate('/app1/', $event)">
+  <a singleSpaRouterLink="/app1/">
     <mat-icon class="example-icon">dashboard</mat-icon>
   </a>
-  <a href (click)="toggleHelp($event)">
+  <a [singleSpaRouterLink]="getHelpUrl()">
     <mat-icon class="example-icon">help_outline</mat-icon>
   </a>
 </mat-toolbar>

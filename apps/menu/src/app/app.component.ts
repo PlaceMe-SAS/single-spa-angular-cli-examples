@@ -1,7 +1,6 @@
-import { Component, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 
 declare const location: any;
-declare const history: any;
 
 @Component({
   selector: 'menu-root',
@@ -10,11 +9,13 @@ declare const history: any;
 })
 export class AppComponent {
 
-  constructor(private ngZone: NgZone) {
+  toogleHelpUrl: string;
+
+  constructor() {
 
   }
 
-  toggleHelp(event: Event): void {
+  getHelpUrl(): string {
     let helpUrl;
     const match = location.href.match(/help=(open|close)/);
     const isOpen = match && match[1] === 'open';
@@ -29,14 +30,6 @@ export class AppComponent {
         helpUrl = `${location.href}?help=open`;
       }
     }
-    this.navigate(helpUrl, event);
-  }
-
-  navigate(path: string, event: Event): void {
-    this.ngZone.runOutsideAngular(() => {
-      history.pushState(null, null, path);
-      event.stopPropagation();
-      event.preventDefault();
-    });
+    return helpUrl;
   }
 }

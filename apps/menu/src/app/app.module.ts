@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule, MatIconModule } from '@angular/material';
 
-import { AppComponent } from './app.component';
+import { SingleSpaRouterModule } from './shared/router/single-spa-router.module';
 
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { AppComponent } from './app.component';
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    SingleSpaRouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -11,6 +11,7 @@
   <mat-card-actions>
     <a mat-raised-button routerLink="/route1">Route1</a>
     <a mat-raised-button routerLink="/route2">Route2 (lazy)</a>
-    <a mat-raised-button color="primary" (click)="navigate('/app1/', $event)">App1 (other cli app)</a>
+    <a mat-raised-button color="accent" [singleSpaRouterLink]="getHelpUrl()">Open Help (other cli app)</a>
+    <a mat-raised-button color="primary" singleSpaRouterLink="/app1/">App1 (other cli app)</a>
   </mat-card-actions>
 </mat-card>

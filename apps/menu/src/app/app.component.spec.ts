@@ -9,6 +9,8 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      providers: [
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
