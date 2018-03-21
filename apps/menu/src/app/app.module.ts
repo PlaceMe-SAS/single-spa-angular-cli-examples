@@ -2,8 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule, MatIconModule } from '@angular/material';
-
-import { SingleSpaRouterModule } from './shared/router/single-spa-router.module';
+import { SingleSpaModule } from 'single-spa-angular-cli/angular';
 
 import { AppComponent } from './app.component';
 
@@ -16,7 +15,7 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
-    SingleSpaRouterModule
+    SingleSpaModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MatCardModule, MatButtonModule } from '@angular/material';
-
-import { SingleSpaRouterModule } from './shared/router/single-spa-router.module';
+import { SingleSpaModule } from 'single-spa-angular-cli/angular';
 
 import { AppComponent } from './app.component';
 import { Route1Component } from './route1/route1.component';
@@ -19,7 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     MatCardModule,
     MatButtonModule,
-    SingleSpaRouterModule
+    SingleSpaModule
   ],
   providers: [],
   bootstrap: [AppComponent]
