@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatCardModule, MatButtonModule } from '@angular/material';
 import { SingleSpaModule } from 'single-spa-angular-cli/angular';
 
@@ -18,8 +18,9 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     MatCardModule,
     MatButtonModule,
-    SingleSpaModule
+    // SingleSpaModule
   ],
+  schemas: [NO_ERRORS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]
 })
