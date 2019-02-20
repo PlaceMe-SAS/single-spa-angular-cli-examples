@@ -18,7 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     MatCardModule,
     MatButtonModule,
-    // SingleSpaModule
+    SingleSpaModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [],

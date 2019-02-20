@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
-    // SingleSpaModule
+    SingleSpaModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [],
